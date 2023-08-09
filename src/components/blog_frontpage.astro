@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import Container from "@components/container_img.astro";
 
 // Filter blog entries with 'draft: false' & date before current date
 const publishedBlogEntries = await getCollection("blog", ({ data }) => {
