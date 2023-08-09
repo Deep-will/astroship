@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: http://www.organicbabyclothes.cc/sitemap-index.xml
