@@ -4,7 +4,7 @@ import image from "@astrojs/image";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import vercelStatic from '@astrojs/vercel/static';
-import vercel from "@astrojs/vercel/serverless";
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,6 +13,6 @@ export default defineConfig({
   integrations: [tailwind(), image({
     serviceEntryPoint: "@astrojs/image/sharp"
   }), mdx(), sitemap()],
-  output: "server",
-  adapter: vercel()
+  output: 'static',
+  adapter: vercelStatic(),
 });
