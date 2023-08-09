@@ -1,0 +1,105 @@
+---
+import { getCollection } from "astro:content";
+import Container from "@components/container_img.astro";
+
+// Filter blog entries with 'draft: false' & date before current date
+const publishedBlogEntries = await getCollection("blog", ({ data }) => {
+  return !data.draft && data.publishDate < new Date();
+});
+
+// Sort content entries by publication date
+publishedBlogEntries.sort(function (a, b) {
+  return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+});
+
+const { align = "center" } = Astro.props;
+---
+
+<div class:list={["mt-24", align === "center" && "text-center"]}>
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">More Stories</h2>
+  <p class="text-lg mt-4 text-slate-600">Check out our latest story</p>
+</div>
+
+<section class="feature-card__section">
+  <div class="feature-card__grid">
+    {
+      publishedBlogEntries.map((blogPostEntry) => (
+        <div class="feature-card__card">
+          <a class="feature-card__link" href={`/blog/${blogPostEntry.slug}`}>
+            <div class="featured-card__content">
+              <h3 class="feature-card__title">{blogPostEntry.data.title}</h3>
+              <div style="height: 390px;">
+              <picture>
+                <source srcset={blogPostEntry.data.image.src} />
+                <img
+                  class="feature-card__img"
+                  src={blogPostEntry.data.image.src}
+                  alt={blogPostEntry.data.image.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            </div>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .feature-card__section {
+    margin: 4rem auto;
+  }
+  .feature-card__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  @media (max-width: 768px) {
+    .feature-card__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .feature-card__card {
+    background-color: #e2ffe7;
+    color: #000;
+    border-radius: clamp(1rem, 2rem, 3rem);
+  }
+  .feature-card__link {
+    display: block;
+    text-decoration: none;
+  }
+  .featured-card__content {
+    padding: 1rem 1rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: hidden;
+  }
+  .featured-card__content picture {
+    width: 100%;
+    height: 100%;
+  }
+  .feature-card__card .feature-card__img {
+    --image-shadow: 0 -0.5rem 1rem rgba(138, 138, 138, 0.12);
+    margin: 0 auto;
+    width: clamp(60%, 70%, 390px);
+    height: auto;
+    object-fit: cover;
+    /* border-radius: 1rem 1rem 0 0; */
+    box-shadow: 0 -0.5rem 1rem rgba(138, 138, 138, 0.12);
+    transform: translateY(0.5rem);
+    transition: transform 0.2s ease-in-out;
+  }
+  .feature-card__card:hover .feature-card__img {
+    transform: translateY(0);
+  }
+  .feature-card__title {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+</style>

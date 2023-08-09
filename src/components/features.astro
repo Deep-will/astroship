@@ -5,26 +5,39 @@ import { Icon } from "astro-icon";
 const features = [
   {
     title: "Organic",
-    description:
-      "Nature materials",
+    description:`
+      - Grown without chemicals, or GMOs that can irritate sensitive baby skin. 
+      - Often uses safer, low-impact dyes rather than harsh industrial dyes. 
+      - Supports organic farming practices that promote sustainability and biodiversity. 
+      - Trusted organic certifications give peace of mind that baby's clothing is safe and gentle.
+    `,
     icon: "bx:bxs-briefcase",
   },
   {
     title: "Healty",
-    description:
-      "No Chemical residues",
+    description:`
+      - Organic cotton and fabrics are hypoallergenic and less likely to cause skin irritation. 
+      - Avoid dangerous chemicals that conventional cotton may contain. 
+      - Breathable and designed to keep baby's skin dry and comfortable. 
+      - Natural fibers like organic cotton allow baby's skin to breathe and regulate temperature.
+      `,
     icon: "bx:bxs-window-alt",
   },
   {
     title: "Comfortable",
-    description:
-      "Natural feeling",
+    description:`
+      - Extra soft fabrics worn close to delicate skin.
+      - Flexible clothes that move with baby's natural motions. 
+      - Designed for easy changing, dressing, and undressing. 
+      `,
     icon: "bx:bxs-data",
   },
 ];
+
+const { align = "center" } = Astro.props;
 ---
 
-<div class="mt-16 md:mt-0">
+<div class:list={[align === "center" && "text-center"]}>
   <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
     Why Organic
   </h2>
@@ -33,7 +46,7 @@ const features = [
   </p>
 </div>
 
-<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-16">
+<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-16 section_card">
   {
     features.map((item) => (
       <div class="flex gap-4 items-start">
@@ -42,9 +55,23 @@ const features = [
         </div>
         <div>
           <h3 class="font-semibold text-lg">{item.title}</h3>{" "}
-          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
+          <ul class="text-slate-500 mt-2 leading-relaxed">
+            {item.description.split('\n').map((line) => (
+        <li>{line}</li>
+      ))}
+    </ul>
         </div>
       </div>
     ))
   }
 </div>
+
+<style>
+  .section_card{
+    display: grid;
+    background-color: #e2ffe7;
+    border-radius: clamp(1rem, 2rem, 3rem);
+    padding: 1rem;
+  }
+
+</style>
